@@ -1,8 +1,15 @@
 .rg {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 90px);
+}
+.rg .error {
+  color: red;
+  opacity: 0.7;
+  font-size: 18px;
+  margin-bottom: 15px;
 }
 .rg_form {
   width: 35%;
