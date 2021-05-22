@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/account/profile.css' %}">
+{% endblock %}
+
+{% block title %} - Profile{% endblock %}
+{% block header %}
+    <div class="header_auth">
+        <a class="header_auth-btn" href="{% url 'account:logout' %}">Log out</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="profile">
+        <div class="grid">
+            {% for row in cells %}
+                <div class="row">
+                    {% for cell in row %}
+                        <div class="cell">
+                            <div class="cell_header">
+                                <div class="cell_header-date">{{ cell.date }}</div>
+                            </div>
+                            <div class="cell_body">
+                                <div class="cell_body-vacancy">{{ cell.vacancy }}</div>
+                                <div class="cell_body-address">{{ cell.address }}</div>
+                            </div>
+                            <div class="cell_footer">
+                                <div class="cell_footer-code">{{ cell.post_code }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -12,6 +12,9 @@
 {% endblock %}
 {% block content %}
     <div class="login">
+    {% if error %}
+        <h1 class="error">You entered incorrect data</h1>
+    {% endif %}
         <form action="." method="post" class="login_form">
             {{ form.as_p }}
             <label class="login-checkbox">
