@@ -79,20 +79,21 @@ def register(request):
         user_form = UserRegistrationForm(request.POST)
         profile_form = ProfileRegistrationForm(request.POST)
         if user_form.is_valid() and profile_form.is_valid():
-            new_user = user_form.save(commit=False)
-            new_user.username = shortuuid.uuid(new_user.first_name + new_user.last_name)
-            if User.objects.get(username=new_user.username) is not None:
+            try:
+                new_user = user_form.save(commit=False)
+                new_user.username = shortuuid.uuid(new_user.first_name + new_user.last_name)
+                new_profile = profile_form.save(commit=False)
+                new_user.set_password(user_form.cleaned_data['password'])
+                new_user.save()
+                new_profile.save()
+                Profile.objects.create(user=new_user, position=new_profile.position, post_code=new_profile.post_code)
+                return render(request, 'account/register_done.html', {'new_user': new_user})
+            except:
                 return render(request, 'account/register.html', {
                     'user_form': UserRegistrationForm(),
                     'profile_form': ProfileRegistrationForm(),
                     'error': True
                 })
-            new_profile = profile_form.save(commit=False)
-            new_user.set_password(user_form.cleaned_data['password'])
-            new_user.save()
-            new_profile.save()
-            Profile.objects.create(user=new_user, position=new_profile.position, post_code=new_profile.post_code)
-            return render(request, 'account/register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
         profile_form = ProfileRegistrationForm()
