@@ -1,3 +1,6 @@
+import math
+from datetime import datetime, timedelta
+
 import shortuuid as shortuuid
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponse
@@ -5,29 +8,56 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from account.forms import UserRegistrationForm, ProfileRegistrationForm, UserLoginForm
-from account.models import Profile
+from account.models import Profile, Cell
+from account.post import Position, PostCode
 
 
-def home(request):
+def profile(request):
+    user = Profile.objects.get(user=request.user)
+    cells = sorted(Cell.objects.filter(date__range=[datetime.now(), datetime.now() + timedelta(days=31)]), key=lambda x: x.date)
+    if user.position in [Position.CMO.name, Position.BMO.name, Position.MO.name]:
+        cells = list(filter(lambda x: x.vacancy in [Position.CMO.name, Position.BMO.name, Position.MO.name], cells))
+    elif user.position in [Position.CKM.name, Position.KM.name]:
+        cells = list(filter(lambda x: x.vacancy in [Position.CKM.name, Position.KM.name], cells))
+    elif user.position == Position.K.name:
+        cells = list(filter(lambda x: x.vacancy == Position.K.name, cells))
+
+    new_cells = []
+    for i in range(math.ceil(len(cells) / 5)):
+        new_cells.append([])
+        for j in range(5 * i, min(((i + 1) * 5, len(cells)))):
+            new_cells[-1].append({
+                'date': cells[j].date,
+                'address': cells[j].post_code,
+                'post_code': PostCode[cells[j].post_code].value,
+                'vacancy': Position[cells[j].vacancy].value
+            })
+
+    return render(request, 'account/profile.html', {'user': user, 'cells': new_cells})
+
+
+def home(request, error):
     username = ''
     password = ''
     if request.session.has_key('username') and request.session.has_key('password'):
         username = request.session['username']
         password = request.session['password']
-        return HttpResponse('Auth success')
+        return profile(request)
     form = UserLoginForm()
     return render(request, 'account/login.html', {
-        'form': form
+        'form': form,
+        'error': error
     })
 
 
 def user_logout(request):
     logout(request)
-
     return redirect('account:user_login')
+
 
 @csrf_exempt
 def user_login(request):
+    error = False
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
@@ -37,13 +67,9 @@ def user_login(request):
                     request.session['username'] = form['username'].value()
                     request.session['password'] = form['password'].value()
                 login(request, user)
-                return HttpResponse('Auth success')
-            else:
-                return HttpResponse('Disabled account')
-        else:
-            return HttpResponse('Invalid login')
-    else:
-        return home(request)
+                return redirect('account:profile')
+        error = True
+    return home(request, error)
 
 
 def register(request):

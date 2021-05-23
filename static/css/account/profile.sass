@@ -1,0 +1,47 @@
+.profile
+  display: flex
+  justify-content: center
+  align-items: center
+  margin-top: 25px
+  & .grid
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+    width: 80%
+    & .row
+      width: 100%
+      display: flex
+      justify-content: flex-start
+      align-items: center
+      & .cell
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        border: 1px solid black
+        width: 15%
+        margin: 25px
+        &_header
+          width: 100%
+          display: flex
+          justify-content: flex-end
+          align-items: center
+          border-bottom: 1px solid black
+          padding: 5px
+          &-date
+        &_body
+          margin: 10px
+          &-vacancy
+            margin-bottom: 15px
+            text-align: center
+          &-address
+            text-align: center
+        &_footer
+          width: 100%
+          display: flex
+          justify-content: flex-start
+          align-items: center
+          border-top: 1px solid black
+          padding: 5px
+          &-code
