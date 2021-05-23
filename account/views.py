@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 import shortuuid as shortuuid
 from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -80,6 +81,12 @@ def register(request):
         if user_form.is_valid() and profile_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.username = shortuuid.uuid(new_user.first_name + new_user.last_name)
+            if User.objects.get(username=new_user.username) is not None:
+                return render(request, 'account/register.html', {
+                    'user_form': UserRegistrationForm(),
+                    'profile_form': ProfileRegistrationForm(),
+                    'error': True
+                })
             new_profile = profile_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
@@ -91,5 +98,6 @@ def register(request):
         profile_form = ProfileRegistrationForm()
     return render(request, 'account/register.html', {
         'user_form': user_form,
-        'profile_form': profile_form
+        'profile_form': profile_form,
+        'error': False
     })

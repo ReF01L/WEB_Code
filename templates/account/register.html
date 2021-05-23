@@ -13,6 +13,9 @@
 {% endblock %}
 {% block content %}
     <div class="rg">
+        {% if error %}
+            <h1 class="error">This user already exists</h1>
+        {% endif %}
         <form action="." method="post" class="rg_form">
             {{ user_form.as_p }}
             {{ profile_form.as_p }}
