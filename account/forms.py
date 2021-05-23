@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.forms import widgets
 
-from account.models import Profile
+from account.models import Profile, Cell
 from account.post import PostCode, Position
 
 
@@ -63,3 +64,27 @@ class UserRegistrationForm(forms.ModelForm):
             v.widget.attrs.update({'class': 'rg_form-field', 'placeholder': v.label})
             v.label = ''
             v.help_text = None
+
+
+class NewCellForm(forms.ModelForm):
+    date = forms.DateField(widget=widgets.SelectDateWidget)
+    post_code = forms.CharField(disabled=True)
+
+    class Meta:
+        model = Cell
+        fields = ('date', 'post_code', 'vacancy')
+
+    def __init__(self, post_code, *args, **kwargs):
+        super(NewCellForm, self).__init__(*args, **kwargs)
+        for k, v in self.fields.items():
+            if k == 'date':
+                v.widget.attrs.update({'class': 'form-date', 'placeholder': v.label})
+            else:
+                v.widget.attrs.update({'class': 'form-field', 'placeholder': v.label})
+            v.label = ''
+            v.help_text = None
+            if k == 'post_code':
+                try:
+                    v.initial = post_code.value
+                except:
+                    v.initial = post_code

@@ -13,24 +13,8 @@
     <div class="header_logo">
         <img src="{% static 'img/logo.png' %}" alt="logo" class="header_logo-img"/>
     </div>
-{% if request.user.is_authenticated %}
-    <div class="header_auth">
-        <a class="header_auth-btn" href="{% url 'account:logout' %}">Log Out</a>
-    </div>
-{% else %}
     {% block header %}{% endblock %}
-{% endif %}
 </header>
-{% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li class="{{ message.tags }}">
-                {{ message|safe }}
-                <a href="#" class="close">✖</a>
-            </li>
-        {% endfor %}
-    </ul>
-{% endif %}
 <div class="content">
     {% block content %}
     {% endblock %}
