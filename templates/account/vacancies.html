@@ -31,7 +31,11 @@
                                     {% endif %}
                                     <div class="cell_header-date">{{ cell.date }}</div>
                                     {% if cell.status == 'Wait' %}
-                                        <a href="{% url 'account:decline' cell.id %}" class="cell_header-delete">✖</a>
+                                        {% if is_ro %}
+                                            <a href="{% url 'account:decline' cell.id %}" class="cell_header-delete">✖</a>
+                                        {% else %}
+                                            <a href="{% url 'account:cancel' cell.id %}" class="cell_header-delete">✖</a>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                                 <div class="cell_body">

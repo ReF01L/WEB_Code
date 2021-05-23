@@ -46,6 +46,11 @@ def vacancies(request):
     })
 
 
+def cancel(request, cell_id):
+    Cell.objects.get(id=cell_id).profile_set.remove(Profile.objects.get(user=request.user))
+    return redirect('account:vacancies')
+
+
 def decline(request, cell_id):
     cell = Cell.objects.get(id=cell_id)
     cell.status = ('Declined', -1)
