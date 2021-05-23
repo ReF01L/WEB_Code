@@ -15,6 +15,7 @@ from account.post import Position, PostCode
 def profile(request):
     user = Profile.objects.get(user=request.user)
     cells = sorted(Cell.objects.filter(date__range=[datetime.now(), datetime.now() + timedelta(days=31)]), key=lambda x: x.date)
+    cells = filter(lambda x: x.post_code == user.post_code, cells)
     if user.position in [Position.CMO.name, Position.BMO.name, Position.MO.name]:
         cells = list(filter(lambda x: x.vacancy in [Position.CMO.name, Position.BMO.name, Position.MO.name], cells))
     elif user.position in [Position.CKM.name, Position.KM.name]:
