@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block extrahead %}
-    <link rel="stylesheet" href="{% static 'css/account/profile.css' %}">
-    <script src="{% static 'js/account/profile.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/account/vacancies.css' %}">
 {% endblock %}
 
-{% block title %} - Profile{% endblock %}
+{% block title %} - Vacations{% endblock %}
 
 {% block header %}
     <div class="header_data">
@@ -13,20 +12,13 @@
         <span>{{ request.user.last_name }}</span>
     </div>
     <div class="header_auth">
-        <a href="{% url 'account:vacancies' %}" class="header_auth-btn">Vacancies</a>
+        <a href="{% url 'account:profile' %}" class="header_auth-btn">Profile</a>
         <a href="{% url 'account:logout' %}" class="header_auth-btn">Log out</a>
     </div>
 {% endblock %}
 
 {% block content %}
-    <div class="profile">
-        {% if is_ro %}
-            <form action="." method="post" class="form">
-                {{ cell_form.as_p }}
-                {% csrf_token %}
-                <input type="submit" value="Add vacancy" class="form-submit">
-            </form>
-        {% endif %}
+    <div class="vacancies">
         {% if cells %}
             <div class="grid">
                 {% for row in cells %}
@@ -34,12 +26,16 @@
                         {% for cell in row %}
                             <div class="cell">
                                 <div class="cell_header">
-                                    {% if not is_ro %}
-                                        <a href="{% url 'account:accept' cell.id %}" class="cell_header-accept">v</a>
+                                    {% if is_ro and cell.status == 'Wait' %}
+                                        <a href="{% url 'account:vacation_accept' cell.id %}" class="cell_header-accept">v</a>
                                     {% endif %}
                                     <div class="cell_header-date">{{ cell.date }}</div>
-                                    {% if is_ro %}
-                                        <a href="{% url 'account:remove' cell.id %}" class="cell_header-delete">✖</a>
+                                    {% if cell.status == 'Wait' %}
+                                        {% if is_ro %}
+                                            <a href="{% url 'account:decline' cell.id %}" class="cell_header-delete">✖</a>
+                                        {% else %}
+                                            <a href="{% url 'account:cancel' cell.id %}" class="cell_header-delete">✖</a>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                                 <div class="cell_body">
@@ -48,6 +44,7 @@
                                 </div>
                                 <div class="cell_footer">
                                     <div class="cell_footer-code">{{ cell.post_code }}</div>
+                                    <div class="cell_footer-status">{{ cell.status }}</div>
                                 </div>
                             </div>
                         {% endfor %}

@@ -1,61 +1,23 @@
-.profile {
+.vacancies {
   display: flex;
   justify-content: center;
   align-items: start;
   margin-top: 25px;
 }
-.profile .form {
-  margin-left: 10px;
-  margin-top: 25px;
-  width: 20%;
-}
-.profile .form p {
-  width: 100%;
-}
-.profile .form-field {
-  width: 100%;
-  font-size: 24px;
-  color: #57A094;
-  background: transparent;
-  border: none;
-  outline: none;
-  text-align: center;
-  height: 60px;
-  border-bottom: 1px solid #297C6E;
-}
-.profile .form-date {
-  width: 33%;
-  font-size: 24px;
-  color: #57A094;
-}
-.profile .form-submit {
-  font-size: 24px;
-  color: #FFFFFF;
-  background: #57A094;
-  border: none;
-  outline: none;
-  width: 100%;
-  padding: 5px 1%;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-.profile .form-submit:hover {
-  cursor: pointer;
-}
-.profile .grid {
+.vacancies .grid {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 80%;
 }
-.profile .grid .row {
+.vacancies .grid .row {
   width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
-.profile .grid .row .cell {
+.vacancies .grid .row .cell {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,7 +26,7 @@
   width: 15%;
   margin: 25px;
 }
-.profile .grid .row .cell_header {
+.vacancies .grid .row .cell_header {
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -74,7 +36,7 @@
   background-color: #57A094;
   color: #FFFFFF;
 }
-.profile .grid .row .cell_header-delete {
+.vacancies .grid .row .cell_header-delete {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -92,18 +54,18 @@
   font-size: 18px;
   text-decoration: none;
 }
-.profile .grid .row .cell_header-delete:hover {
+.vacancies .grid .row .cell_header-delete:hover {
   color: #FFFFFF;
 }
-.profile .grid .row .cell_header-accept {
+.vacancies .grid .row .cell_header-accept {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #57A094;
+  background-color: #297C6E;
   border: none;
   outline: none;
   text-align: center;
-  color: #297C6E;
+  color: #57A094;
   -webkit-transition: 0.2s;
   -moz-transition: 0.2s;
   -ms-transition: 0.2s;
@@ -113,7 +75,7 @@
   font-size: 18px;
   text-decoration: none;
 }
-.profile .grid .row .cell_header-accept:hover {
+.vacancies .grid .row .cell_header-accept:hover {
   cursor: pointer;
   color: #FFFFFF;
   -webkit-transition: 0.2s;
@@ -122,28 +84,31 @@
   -o-transition: 0.2s;
   transition: 0.2s;
 }
-.profile .grid .row .cell_body {
+.vacancies .grid .row .cell_body {
   margin: 10px;
   color: #297C6E;
   font-weight: 700;
 }
-.profile .grid .row .cell_body-vacancy {
+.vacancies .grid .row .cell_body-vacancy {
   margin-bottom: 15px;
   text-align: center;
 }
-.profile .grid .row .cell_body-address {
+.vacancies .grid .row .cell_body-address {
   text-align: center;
 }
-.profile .grid .row .cell_footer {
+.vacancies .grid .row .cell_footer {
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   border-top: 1px solid black;
   padding: 5px 25px;
 }
-.profile .grid .row .cell_footer-code {
+.vacancies .grid .row .cell_footer-code {
+  color: #57A094;
+}
+.vacancies .grid .row .cell_footer-status {
   color: #57A094;
 }
 
-/*# sourceMappingURL=profile.css.map */
+/*# sourceMappingURL=vacancies.css.map */

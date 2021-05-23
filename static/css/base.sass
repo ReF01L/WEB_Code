@@ -25,8 +25,18 @@ body
       height: 75px
       border-radius: 50%
 
+  &_data
+    margin: auto
+    & span
+      color: $white
+      font-size: 24px
+      letter-spacing: 2px
+
   &_auth
     margin: 25px 15px 25px auto
+    display: flex
+    justify-content: center
+    align-items: center
 
     &-btn
       color: $light
@@ -41,6 +51,7 @@ body
       display: block
       text-align: center
       padding-top: 10px
+      margin: 10px
       &:hover
         cursor: pointer
         background-color: $light
